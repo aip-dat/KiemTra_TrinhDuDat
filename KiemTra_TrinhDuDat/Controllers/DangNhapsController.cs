@@ -9,7 +9,8 @@ namespace KiemTra_TrinhDuDat.Controllers
 {
     public class DangNhapsController : Controller
     {
-        private TestContext db = new TestContext();
+      
+        MyDataDataContext db = new MyDataDataContext();
         // GET: DangNhaps
         public ActionResult Index()
         {
@@ -28,7 +29,7 @@ namespace KiemTra_TrinhDuDat.Controllers
         [HttpPost]
         public ActionResult DangNhap(FormCollection collection)
         {
-            var mssv = collection["Mã số sinh viên"];
+            var mssv = collection["MaSV"];
             SinhVien sinhVien = db.SinhViens.SingleOrDefault(n => n.MaSV == mssv);
             if (sinhVien != null)
             {
@@ -39,7 +40,7 @@ namespace KiemTra_TrinhDuDat.Controllers
             {
                 ViewBag.ThongBao = "Đăng nhập thất bại";
             }
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Giohang","GioHang");
         }
     }
 }

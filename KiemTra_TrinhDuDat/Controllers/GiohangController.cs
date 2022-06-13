@@ -9,7 +9,7 @@ namespace KiemTra_TrinhDuDat.Controllers
 {
     public class GiohangController : Controller
     {
-        private TestContext db = new TestContext();
+        MyDataDataContext data = new MyDataDataContext();
         // GET: Giohang
         public ActionResult Index()
         {
@@ -115,7 +115,54 @@ namespace KiemTra_TrinhDuDat.Controllers
         }
 
         // GET: Dat hang
-        [Http]
-      
-}
+        [HttpGet]
+        public ActionResult DatHang()
+        {
+            if (Session["TaiKhoan"] == null || Session["TaiKhoan"].ToString() == "")
+            {
+                return RedirectToAction("DangNhap", "DangNhaps");
+            }
+            if (Session["Giohang"] == null)
+            {
+                return RedirectToAction("Index", "HocPhans");
+            }
+            List<Giohang> giohangs = Laygiohang();
+            ViewBag.Tongsoluong = TongSoLuong();
+            return View(giohangs);
+        }
+        public ActionResult DatHang(FormCollection collection)
+        {
+            DangKy dk = new DangKy();
+            SinhVien sv = (SinhVien)Session["TaiKhoan"];
+            HocPhan hp = new HocPhan();
+
+            List<Giohang> gh = Laygiohang();
+
+            dk.MaSV = sv.MaSV;
+            dk.NgayDK = DateTime.Now;
+
+            data.DangKies.InsertOnSubmit(dk);
+            data.SubmitChanges();
+            foreach (var item in gh)
+            {
+                ChiTietDangKy ctdk = new ChiTietDangKy();
+
+                ctdk.MaDK = dk.MaDK;
+                ctdk.MaHP = item.MaHP;
+                hp = data.HocPhans.Single(n => n.MaHP == item.MaHP);
+                data.SubmitChanges();
+
+                data.ChiTietDangKies.InsertOnSubmit(ctdk);
+            }
+            data.SubmitChanges();
+            Session["Giohang"] = null;
+            return RedirectToAction("XacnhanDonhang", "Giohang");
+
+
+        }
+        public ActionResult XacnhanDonhang()
+        {
+            return View();
+        }
+    }
 }

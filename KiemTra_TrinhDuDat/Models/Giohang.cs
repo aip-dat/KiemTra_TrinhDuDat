@@ -7,7 +7,9 @@ namespace KiemTra_TrinhDuDat.Models
 {
     public class Giohang
     {
-        TestContext db = new TestContext();
+        
+        MyDataDataContext db = new MyDataDataContext();
+        public int MaDK { get; set; }
         public string MaHP { get; set; }
 
         public string TenHP { get; set; }

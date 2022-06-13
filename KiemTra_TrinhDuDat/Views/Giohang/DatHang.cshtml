@@ -1,0 +1,95 @@
+﻿@using KiemTra_TrinhDuDat.Models
+@model IEnumerable<KiemTra_TrinhDuDat.Models.Giohang>
+
+@{
+    ViewBag.Title = "DatHang";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    SinhVien sv = (SinhVien)Session["TaiKhoan"];
+}
+
+<h2>Đăng ký học phần</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            Mã học phần
+        </th>
+        <th>
+            Tên học phần
+        </th>
+        <th>
+            Số tín chỉ
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaHP)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenHP)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SoTinChi)
+            </td>
+            <td>
+                @Html.ActionLink("Xóa", "XoaGiohang", new { @id = item.MaHP })
+            </td>
+        </tr>
+    }
+    <tr style="font-weight:bold; text-align:left; color:red">
+        <td colspan="2">
+            Số học phần: @ViewBag.Tongsoluongsanpham
+        </td>
+    </tr>
+
+    @*<tr style="font-weight:bold; text-align:right; color:blue">
+            <td colspan="5">
+                @Html.ActionLink("Xóa đăng ký", "XoaTatCaGioHang")
+            </td>
+        </tr>*@
+    <tr style="font-weight:bold;color:yellow; text-align:right">
+        <td colspan="5">
+            @Html.ActionLink("Trở về giỏ hàng", "Giohang", "GioHang")
+        </td>
+    </tr>
+</table>
+
+<h2 style="text-align:center">Thông tin đăng ký</h2>
+
+<table align="center">
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+        <tr style="height: 40px">
+            <td>Mã sinh viên:</td>
+            <td style="font-weight:bold">@sv.MaSV</td>
+        </tr>
+        <tr style="height: 40px">
+            <td>Họ tên:</td>
+            <td style="font-weight:bold"> @sv.HoTen</td>
+        </tr>
+        <tr style="height: 40px">
+            <td>Ngày sinh:</td>
+            <td style="font-weight:bold">@sv.NgaySinh</td>
+        </tr>
+        <tr style="height: 40px">
+            <td>Nghành học:</td>
+            <td style="font-weight:bold">@sv.NganhHoc.TenNganh</td>
+        </tr>
+        <tr style="height: 40px">
+            <td>Ngành học:</td>
+            <td style="font-weight:bold">@DateTime.Now.ToShortDateString()</td>
+        </tr>
+        <tr style="height: 40px">
+            <td style="font-weight:bold">
+                <input type="submit" value="Xác nhận" class="btn btn-success"
+            </td>
+        </tr>
+
+    }
+</table>
