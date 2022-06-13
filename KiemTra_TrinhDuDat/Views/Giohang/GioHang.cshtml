@@ -1,0 +1,59 @@
+﻿@model IEnumerable<KiemTra_TrinhDuDat.Models.Giohang>
+
+@{
+    ViewBag.Title = "GioHang";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ĐĂNG KÝ HỌC PHẦN</h2>
+
+<table class="table">
+    <tr>
+        <th>
+           Mã học phần
+        </th>
+        <th>
+            Tên học phần
+        </th>
+        <th>
+           Số tín chỉ
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaHP)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenHP)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SoTinChi)
+            </td>
+            <td>
+                @Html.ActionLink("Xóa", "XoaGiohang", new { @id = item.MaHP })
+            </td>
+        </tr>
+    }
+    <tr style="font-weight:bold; text-align:left; color:red">
+        <td colspan="2">
+            Số học phần: @ViewBag.Tongsoluongsanpham
+        </td>
+    </tr>
+    </tr>
+
+    <tr style="font-weight:bold; text-align:right; color:blue">
+        <td colspan="5">
+            @Html.ActionLink("Xóa đăng ký", "XoaTatCaGioHang")
+        </td>
+    </tr>
+    <tr style="font-weight:bold;color:yellow; text-align:right">
+        <td colspan="5">
+            @Html.ActionLink("Lưu thông tin", "Dathang", "GioHang")
+        </td>
+    </tr>
+
+</table>
